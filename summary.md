@@ -413,6 +413,46 @@ A Volett developer shouldn't spend the beginning of every project researching an
 
 ---
 
+# Integrate first, build when valuable
+
+Volett should use existing .NET primitives when they already provide a strong foundation.
+
+For example:
+
+```text
+HTTP                 → ASP.NET Core controllers and routing
+Dependency injection → Microsoft.Extensions.DependencyInjection
+Persistence          → EF Core
+Logging              → Microsoft.Extensions.Logging
+Observability        → OpenTelemetry
+Configuration        → Microsoft.Extensions.Configuration
+```
+
+For these capabilities, Volett's responsibility is to select sensible defaults, connect the components, establish conventions, and make them easy to use in a new application.
+
+Volett may provide its own higher-level programming model when the .NET ecosystem does not offer a sufficiently cohesive application experience.
+
+For example:
+
+```text
+Actions
+Mail
+Notifications
+Scheduled tasks
+Jobs
+Application events
+```
+
+These Volett APIs should make common application work simpler and more consistent. They should not exist merely to place a Volett name over an equivalent .NET API.
+
+Even when Volett provides a custom API, it should use established .NET infrastructure underneath whenever practical. A Volett mailer should not reinvent mail transport, and a Volett scheduler should not reinvent background process hosting.
+
+The decision rule is:
+
+> **Use .NET primitives where they are already effective. Build Volett abstractions where they materially improve cohesion, convention, or developer experience.**
+
+---
+
 # Escape hatches
 
 Volett must never become a prison.
