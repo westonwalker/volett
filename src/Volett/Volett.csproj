@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Volett</AssemblyName>
+    <RootNamespace>Volett</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <PackageId>Volett</PackageId>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <Description>An opinionated, batteries-included application framework for ASP.NET Core.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+</Project>
