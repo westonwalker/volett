@@ -17,12 +17,52 @@ dotnet test
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddVolett();
+builder.Services.AddVolett(builder.Configuration);
 
 var app = builder.Build();
 
 app.UseVolett();
 app.Run();
+```
+
+## Database and Entity Framework Core
+
+Volett configures EF Core from `appsettings.json`. Set the driver to `sqlite`, `postgres`,
+`mssql`, `mysql`, or `none`:
+
+```json
+{
+  "Volett": {
+    "Database": {
+      "Driver": "sqlite",
+      "ConnectionString": "Data Source=volett.sqlite"
+    }
+  }
+}
+```
+
+Create a normal EF Core context in the application:
+
+```csharp
+public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    : DbContext(options)
+{
+    public DbSet<Todo> Todos => Set<Todo>();
+}
+```
+
+Then give its type to Volett. Volett reads the configured driver, selects the provider, and
+registers the context with the standard scoped lifetime:
+
+```csharp
+builder.Services.AddVolett<ApplicationDbContext>(builder.Configuration);
+```
+
+With `"Driver": "none"` (the default), use the non-generic registration and no EF Core
+context is added:
+
+```csharp
+builder.Services.AddVolett(builder.Configuration);
 ```
 
 The runnable application in [`examples/Volett.Example`](examples/Volett.Example) demonstrates this integration against the local Volett project:

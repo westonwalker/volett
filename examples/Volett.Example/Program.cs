@@ -1,6 +1,8 @@
+using Volett.Example.Database;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddVolett();
+builder.Services.AddVolett<ApplicationDbContext>(builder.Configuration);
 
 var app = builder.Build();
 
