@@ -9,6 +9,7 @@ The project is at an early stage. Its goal is to provide cohesive conventions an
 ```bash
 dotnet restore
 dotnet build
+dotnet test
 ```
 
 ## Application integration
@@ -29,3 +30,15 @@ The runnable application in [`examples/Volett.Example`](examples/Volett.Example)
 ```bash
 dotnet run --project examples/Volett.Example
 ```
+
+It also contains a complete request-to-action example:
+
+```text
+POST /todos
+  → CreateTodoRequest
+  → TodosController
+  → CreateTodo
+  → Todo
+```
+
+Actions implement `IAction<TRequest, TResult>` and are registered automatically with scoped lifetime. Controllers inject the concrete action and call `ExecuteAsync` directly.

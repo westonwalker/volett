@@ -1,12 +1,13 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Volett;
+using Volett.Features.Actions;
+using Volett.Shared;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 /// Registers Volett's application services.
 /// </summary>
-public static class VolettServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     /// <summary>
     /// Adds Volett to an ASP.NET Core application's service collection.
@@ -15,7 +16,12 @@ public static class VolettServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        services.TryAddSingleton<VolettMarker>();
+        services.TryAddSingleton<RegistrationMarker>();
+        services.AddProblemDetails();
+
+        var mvc = services.AddControllers();
+
+        ActionRegistrar.Register(services, mvc.PartManager);
 
         return services;
     }
